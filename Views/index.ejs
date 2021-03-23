@@ -12,15 +12,19 @@
 <body>
     <!-- Main Header -->
     <header>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+      <%- include('./components/header'); -%>
     </header>
 
     <!-- Main Content -->
-    <main class="container"></main>
+    <main class="container">
+     <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    </main>
 
     <!-- Main Footer -->
-    <footer></footer>
+    <footer>
+    <%- include('./components/footer'); -%>
+    </footer>
 
     <!-- Script Section-->
     <script src="./jquery/dist/jquery.min.js"></script>
