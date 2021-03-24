@@ -10,19 +10,19 @@
 </head>
 <body>
     <!-- Main Header -->
-    <header>
-
-        <div class="container">
-            <h1>ERROR <%= error.status %> - <%= message %> </h1>
-        </div>
-    
+    <header>  
+        <%- include('./components/header'); -%>
     </header>
 
     <!-- Main Content -->
-    <main class="container"></main>
+    <main class="container">
+        <h1>ERROR <%= error.status %> - <%= message %> </h1>
+    </main>
 
     <!-- Main Footer -->
-    <footer></footer>
+    <footer>
+        <%- include('./components/footer'); -%>
+    </footer>
 
     <!-- Script Section-->
     <script src="./jquery/dist/jquery.min.js"></script>
