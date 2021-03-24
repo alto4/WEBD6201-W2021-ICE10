@@ -2,34 +2,13 @@
 namespace core
 {
 
-    function addLinkEvents():void
-    {
-      // remove all events first
-      $("ul>li>a").off("click");
-      $("ul>li>a").off("mouseover");
-
-       // loop through each anchor tag in the unordered list and 
-        // add an event listener / handler to allow for 
-        // content injection
-        $("ul>li>a").on("click", function()
-        {
-          loadLink($(this).attr("id"));
-        });
-
-        // make it look like each nav item is an active link
-        $("ul>li>a").on("mouseover", function()
-        {
-          $(this).css('cursor', 'pointer');
-        });
-    }
-
-    /**
+        /**
      * This function highlights the active link in the nav bar
      *
      * @param {string} link
      * @param {string} [data=""]
      */
-    function highlightActiveLink(link:string):void
+    /* function highlightActiveLink(link:string):void
     {
       // swap active link
       $(`#${router.ActiveLink}`).removeClass("active"); // removes highlighted link
@@ -44,7 +23,7 @@ namespace core
         router.ActiveLink = link;
       }
       $(`#${router.ActiveLink}`).addClass("active"); // applies highlighted link to new page
-    }
+    } */
 
     /**
      * This function switches page content relative to the link that is passed into the function
@@ -53,20 +32,20 @@ namespace core
      * @param {string} link
      * @param {string} [data=""]
      */
-    function loadLink(link:string, data:string = ""):void
+    /* function loadLink(link:string, data:string = ""):void
     {
-      highlightActiveLink(link);
+      //highlightActiveLink(link);
       router.LinkData = data;
       loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
       history.pushState({},"", router.ActiveLink); // this replaces the url displayed in the browser
-    }
+    } */
 
     /**
      * Inject the Navigation bar into the Header element and highlight the active link based on the pageName parameter
      *
      * @param {string} pageName
      */
-    function loadHeader(pageName:string):void
+    /* function loadHeader(pageName:string):void
     {
       // inject the Header
       $.get("./components/header.html", function(data)
@@ -75,64 +54,12 @@ namespace core
         
         $(`#${pageName}`).addClass("active"); // highlight active link
 
-        addLinkEvents();
+        //addLinkEvents();
         
       });
-    }
+    } */
 
-    /**
-     * Inject page content in the main element 
-     *
-     * @param {string} pageName
-     * @param {Function} callback
-     * @returns {void}
-     */
-    function loadContent(pageName:string, callback:Function):void
-    {
-      // inject content
-      $.get(`./content/${pageName}.html`, function(data)
-      {
-        $("main").html(data);
-
-        toggleLogin();
-        callback();
-      });
-      
-    }
-
-    /**
-     * This function loads the page footer
-     *
-     */
-    function loadFooter():void
-    {
-      // inject the Footer
-      $.get("./components/footer.html", function(data)
-      {
-        $("footer").html(data);
-      });
-    }
-
-    function displayHome(): void
-    {
-   
-    }
-
-    function displayAbout(): void
-    {
-
-    }
-
-    function displayProjects(): void
-    {
-
-    }
-
-    function displayServices(): void
-    {
-
-    }
-
+    
     function testFullName(): void
     {
       let messageArea = $("#messageArea").hide();
@@ -222,7 +149,8 @@ namespace core
             }
           }
 
-          loadLink("contact"); // reload contact page
+          location.href = '/contact';
+          //loadLink("contact"); // reload contact page
         });
     }
 
@@ -264,7 +192,8 @@ namespace core
         contactList.innerHTML = data;
 
         $("button.edit").on("click", function(){
-          loadLink("edit", $(this).val().toString());
+          //loadLink("edit", $(this).val().toString());
+          location.href = '/edit';
          });
 
          $("button.delete").on("click", function(){
@@ -272,19 +201,22 @@ namespace core
            {
             localStorage.removeItem($(this).val().toString());
            }
-           loadLink("contact-list"); // refresh the page
+           //loadLink("contact-list"); 
+           // refresh the page
+           location.href = '/contact-list';
          });
       }
 
       $("#addButton").on("click", function() 
       {
-      loadLink("edit");
+      //loadLink("edit");
+      location.href = '/edit';
       });
     }
 
-    function displayEdit(): void
+    /* function displayEdit(): void
     {
-      let key = router.LinkData;
+      //let key = router.LinkData;
 
       let contact = new core.Contact();
 
@@ -331,16 +263,16 @@ namespace core
           }
 
           // return to the contact list
-          loadLink("contact-list");
+          //loadLink("contact-list");
           
         });
 
       $("#cancelButton").on("click", function()
       {
         // return to the contact list
-        loadLink("contact-list");
+        //loadLink("contact-list");
       });
-    }
+    } */
 
     function displayLogin():void
     {
@@ -378,7 +310,10 @@ namespace core
             messageArea.removeAttr("class").hide();
 
             // redirect user to secure area - contact-list.html
-            loadLink("contact-list");
+            //loadLink("contact-list");
+            //location.href = '/contact-list';
+
+            $("form").trigger("submit");
           }
           else
           {
@@ -394,16 +329,18 @@ namespace core
         // clear the login form
         document.forms[0].reset();
         // return to the home page
-        loadLink("home");
+        //loadLink("home");
+        location.href = '/home';
       });
     }
 
-    function displayRegister(): void
+    function performLogout():void
     {
-
+        sessionStorage.clear();
+        location.href = '/login';
     }
 
-    function toggleLogin(): void
+    /* function toggleLogin(): void
     {
       let contactListLink = $("#contactListLink")[0]; // makes a reference to the contact-list link
 
@@ -440,16 +377,17 @@ namespace core
 
       }
 
-      addLinkEvents();
-      highlightActiveLink(router.ActiveLink);
-    }
+      //addLinkEvents();
+      //highlightActiveLink(router.ActiveLink);
+    } */
 
     function authGuard():void
     {
       if(!sessionStorage.getItem("user"))
       {
       // redirect back to login page
-      loadLink("login");
+      //loadLink("login");
+      location.href = '/login';
       }
     }
 
@@ -464,7 +402,7 @@ namespace core
      * @param {string} activeLink
      * @returns {Function}
      */
-    function ActiveLinkCallBack(activeLink:string): Function
+    /* function ActiveLinkCallBack(activeLink:string): Function
     {
       switch (activeLink) 
       {
@@ -482,7 +420,7 @@ namespace core
           console.error("ERROR: callback does not exist: " + activeLink);
           break;
       }
-    }
+    } */
 
     /**
      * This is the entry point for our program
@@ -490,11 +428,37 @@ namespace core
      */
     function Start(): void
     {
-        loadHeader(router.ActiveLink);
+        //loadHeader(router.ActiveLink);
       
-        loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
+        //loadContent(router.ActiveLink, ActiveLinkCallBack(router.ActiveLink));
 
-        loadFooter();
+        //loadFooter();
+
+        let pageID = $("body")[0].getAttribute("id");
+        
+      switch (pageID) {
+        case 'home':
+          break;
+        case 'about':
+          break;
+        case 'services':
+          break;
+        case 'projects':
+          break;
+        case 'contact':
+          displayContact();
+          break;
+        case 'login':
+          displayLogin();
+          break;
+        case 'logout':
+          performLogout();
+        case 'register':
+          break;
+        case 'contact-list':
+          displayContactList();
+          break;
+      }
     }
 
     window.addEventListener("load", Start);

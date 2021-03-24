@@ -36,7 +36,7 @@ app.use(function(err:createError.HttpError, req:express.Request, res:express.Res
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {message: message, error:error});
+  res.render('error', {message: message, error:error, title: '', page: ''});
 });
 
 module.exports = app;
