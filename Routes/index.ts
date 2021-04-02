@@ -44,7 +44,7 @@ router.get('/login', function (req, res, next) {
 
 /* GET login page - with /login */
 router.post('/login', function (req, res, next) {
-  res.render('index', { title: 'Contact List', page: 'contact-list', displayName: req.body.username });
+  res.redirect('/contact-list');
 });
 
 
@@ -62,8 +62,7 @@ router.get('/contact-list', function (req, res, next) {
       return console.error(err);
     }
 
-    console.log(contacts);
-    res.json(contacts);
+    res.render('index', { title: 'Contact List', page: 'contact-list', contacts: contacts, displayName: 'temp' });
   })
 
 });
