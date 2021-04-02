@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Model = void 0;
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ContactSchema = new Schema({
@@ -9,6 +10,5 @@ const ContactSchema = new Schema({
 }, {
     collection: 'contacts'
 });
-const Model = mongoose.model('Contact', ContactSchema);
-module.exports.Model = Model;
+exports.Model = mongoose.model('Contact', ContactSchema);
 //# sourceMappingURL=contact.js.map
