@@ -108,10 +108,14 @@ exports.router.post('/add/', function (req, res, next) {
     });
     res.redirect('/contact-list');
 });
-exports.router.get('/edit/:id', function (req, res, next) {
-    res.render('index', { title: 'Logout', page: 'logout', displayName: '' });
-});
-exports.router.post('/edit/:id', function (req, res, next) {
-    res.render('index', { title: 'Delete', page: 'delete', displayName: '' });
+exports.router.get('/delete/:id', function (req, res, next) {
+    let id = req.params.id;
+    Contact.remove({ _id: id }, (err) => {
+        if (err) {
+            console.error(err);
+            res.end(err);
+        }
+        res.redirect('/contact-list');
+    });
 });
 //# sourceMappingURL=index.js.map

@@ -142,15 +142,18 @@ router.post('/add/', function (req, res, next) {
   res.redirect('/contact-list');
 });
 
-// EDIT PAGE ROUTES
-/* GET display edit/:id page - with edit/:id */
-router.get('/edit/:id', function (req, res, next) {
-  res.render('index', { title: 'Logout', page: 'logout', displayName: '' });
-});
-
 /* DELETE process delete/:id page - with delete/:id */
-router.post('/edit/:id', function (req, res, next) {
-  res.render('index', { title: 'Delete', page: 'delete', displayName: '' });
+router.get('/delete/:id', function (req, res, next) {
+
+  let id = req.params.id;
+
+  Contact.remove({ _id: id }, (err) => {
+    if (err) {
+      console.error(err);
+      res.end(err);
+    }
+    res.redirect('/contact-list');
+  });
 });
 
 
