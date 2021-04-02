@@ -67,9 +67,75 @@ router.get('/contact-list', function (req, res, next) {
 
 });
 
-/* GET login page - with /login */
+/* GET logout page - with /login */
 router.get('/logout', function (req, res, next) {
   res.render('index', { title: 'Logout', page: 'logout', displayName: '' });
+});
+
+// EDIT PAGE ROUTES
+/* GET display edit/:id page - with edit/:id */
+router.get('/edit/:id', function (req, res, next) {
+
+  let id = req.params.id;
+
+  // Pass id to the database to retrieve existing record data
+  Contact.findById(id, {}, {}, (err, contactToEdit) => {
+
+    if (err) {
+      console.error(err);
+      res.end(err);
+    }
+
+    // Show edit view with data
+    res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: '' })
+  });
+
+  //res.render('index', { title: 'Edit', page: 'edit', displayName: '' });
+});
+
+/* POST process edit/:id page - with edit/:id */
+router.post('/edit/:id', function (req, res, next) {
+
+  // Retrieve contact's id
+  let id = req.params.id;
+
+  // Instantiate a new contact
+  let updatedContact = new Contact({
+    "_id": id,
+    "FullName": req.body.FullName,
+    "ContactNumber": req.body.ContactNumber,
+    "EmailAddress": req.body.EmailAddress
+  })
+
+  Contact.updateOne({ _id: id }, updatedContact, {}, (err) => {
+    if (err) {
+      console.error(err);
+      res.end(err);
+    }
+    res.redirect('/contact-list');
+  });
+});
+
+// ADD PAGE ROUTES
+/* GET display add page - with /add */
+router.get('/add', function (req, res, next) {
+  res.render('index', { title: 'Add', page: 'edit', displayName: '' });
+});
+
+/* POST process add page - with /add */
+router.post('/add/', function (req, res, next) {
+  res.redirect('/contact-list');
+});
+
+// EDIT PAGE ROUTES
+/* GET display edit/:id page - with edit/:id */
+router.get('/edit/:id', function (req, res, next) {
+  res.render('index', { title: 'Logout', page: 'logout', displayName: '' });
+});
+
+/* DELETE process delete/:id page - with delete/:id */
+router.post('/edit/:id', function (req, res, next) {
+  res.render('index', { title: 'Delete', page: 'delete', displayName: '' });
 });
 
 
