@@ -119,11 +119,26 @@ router.post('/edit/:id', function (req, res, next) {
 // ADD PAGE ROUTES
 /* GET display add page - with /add */
 router.get('/add', function (req, res, next) {
-  res.render('index', { title: 'Add', page: 'edit', displayName: '' });
+  res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: '' });
 });
 
 /* POST process add page - with /add */
 router.post('/add/', function (req, res, next) {
+
+  // Instantiate a new contact
+  let newContact = new Contact({
+    "FullName": req.body.FullName,
+    "ContactNumber": req.body.ContactNumber,
+    "EmailAddress": req.body.EmailAddress
+  })
+
+  // Insert new contact into database
+  Contact.create(newContact, (err) => {
+    if (err) {
+      console.error(err);
+      res.end(err);
+    }
+  });
   res.redirect('/contact-list');
 });
 
